@@ -14,8 +14,10 @@ import { Meal } from './meal.model';
         <h3>Edit Calories: {{ meal.calories }}</h3>
         <input [(ngModel)]="meal.calories" class="col-sm-8 input-lg meal-form"/>
       </div>
+      <div class="row">
         <h3>Edit Details: {{ meal.details }}</h3>
         <input [(ngModel)]="meal.details" class="col-sm-8 input-lg meal-form"/>
+        </div>
     </div>
   `
 })
