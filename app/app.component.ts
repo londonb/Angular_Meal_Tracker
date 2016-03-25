@@ -8,7 +8,10 @@ import { MealListComponent } from './meal-list.component';
   template: `
   <div class="container">
     <h1>Meal List</h1>
-    <meal-list [mealList]="meals"></meal-list>
+    <meal-list
+      [mealList]="meals"
+      (onMealSelect)="mealWasSelected($event)">
+    </meal-list>
   </div>
   `
 })
