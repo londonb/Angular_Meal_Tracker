@@ -3,14 +3,21 @@ import { Meal } from './meal.model';
 import { MealComponent } from './meal.component';
 import { EditMealDetailsComponent } from './edit-meal-details.component';
 import { NewMealComponent} from './new-meal.component';
+import { HealthyPipe} from './healthy.pipe';
 
 @Component({
   selector: 'meal-list',
   inputs: ['mealList'],
   outputs: ['onMealSelect'],
+  pipes: [HealthyPipe],
   directives: [MealComponent, EditMealDetailsComponent, NewMealComponent],
   template:`
-    <meal-display *ngFor="#currentMeal of mealList"
+    <select (change)="onChange($event.target.value)">
+      <option value="all">Show all meals</option>
+      <option value="healthy">Show my healthy meals</option>
+      <option value="notHealthy">Show my poor choices</option>
+    </select>
+    <meal-display *ngFor="#currentMeal of mealList | healthy:filterHealthy"
       (click)="mealClicked(currentMeal)"
       [class.selected]="currentMeal === selectedMeal"
       [meal]="currentMeal">
@@ -25,6 +32,7 @@ export class MealListComponent {
   public mealList: Meal[];
   public onMealSelect: EventEmitter<Meal>;
   public selectedMeal: Meal;
+  public filterHealthy: string = "all";
   constructor() {
     this.onMealSelect = new EventEmitter()
   }
@@ -37,5 +45,8 @@ export class MealListComponent {
     this.mealList.push(
       new Meal(mealName, calories, details, this.mealList.length)
     );
+  }
+  onChange(filterOption) {
+    this.filterHealthy = filterOption;
   }
 }
